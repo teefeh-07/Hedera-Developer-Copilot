@@ -1,0 +1,12 @@
+This is a placeholder for the hivemind-logo.png file.
+
+In a real implementation, this would be a 128x128 pixel PNG image with the HiveMind Copilot logo.
+Since we can't create binary files directly through this interface, you'll need to:
+
+1. Create a PNG logo file named "hivemind-logo.png"
+2. Place it in the "media" directory
+3. The logo should be 128x128 pixels with a transparent background
+4. Use the Hedera purple color (#7D56F4) as the primary color
+
+The logo should represent the HiveMind Copilot concept - a combination of AI (brain/neural network) 
+and blockchain (hexagon/distributed nodes) imagery.

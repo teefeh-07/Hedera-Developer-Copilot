@@ -1,0 +1,220 @@
+{
+  "name": "hivemind-copilot",
+  "displayName": "HiveMind Copilot",
+  "description": "AI-powered development environment integrating decentralized AI agents with Hedera's enterprise blockchain",
+  "version": "0.1.0",
+  "publisher": "hivemind",
+  "icon": "media/hivemind-logo.png",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onLanguage:solidity",
+    "onLanguage:python",
+    "onCommand:hivemind.showAgentHub",
+    "onCommand:hivemind.auditContract",
+    "onCommand:hivemind.generateTests",
+    "onView:hivemindAgentExplorer",
+    "onView:hivemindChat"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "hivemind.showAgentHub",
+        "title": "HiveMind: Show Agent Hub"
+      },
+      {
+        "command": "hivemind.auditContract",
+        "title": "HiveMind: Audit Smart Contract"
+      },
+      {
+        "command": "hivemind.generateTests",
+        "title": "HiveMind: Generate Tests"
+      },
+      {
+        "command": "hivemind.deployContract",
+        "title": "HiveMind: Deploy Contract"
+      },
+      {
+        "command": "hivemind.showAuditDashboard",
+        "title": "HiveMind: Show Audit Dashboard"
+      },
+      {
+        "command": "hivemind.showChat",
+        "title": "HiveMind: Open Chat"
+      },
+      {
+        "command": "hivemind.testChat",
+        "title": "HiveMind: Test Chat Interface"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "hivemind-sidebar",
+          "title": "HiveMind Copilot",
+          "icon": "media/hivemind-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "hivemind-sidebar": [
+        {
+          "id": "hivemindAgentExplorer",
+          "name": "Agent Marketplace",
+          "icon": "package"
+        },
+        {
+          "id": "hivemindAuditDashboard",
+          "name": "Audit Dashboard",
+          "icon": "shield"
+        },
+        {
+          "id": "hivemindTransactionCenter",
+          "name": "Transaction Center",
+          "icon": "history"
+        },
+        {
+          "id": "hivemindChat",
+          "name": "Chat",
+          "icon": "comment"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "hivemindAgentExplorer",
+        "contents": "No agents found. Connect to Hedera network to discover available agents.\n[Connect to Hedera](command:hivemind.connectHedera)"
+      }
+    ],
+    "configuration": {
+      "title": "HiveMind Copilot",
+      "properties": {
+        "hivemind.enablePythonAssistant": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Python assistant features"
+        },
+        "hivemind.solidityAuditOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically audit Solidity contracts on save"
+        },
+        "hivemind.defaultNetwork": {
+          "type": "string",
+          "default": "testnet",
+          "enum": [
+            "testnet",
+            "mainnet"
+          ],
+          "description": "Default Hedera network to connect to"
+        },
+        "hivemind.agentResponseTimeout": {
+          "type": "number",
+          "default": 5000,
+          "description": "Timeout for agent responses in milliseconds"
+        },
+        "hivemind.groqApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for Groq"
+        },
+        "hivemind.favoriteAgents": {
+          "type": "array",
+          "default": [],
+          "description": "List of favorite agent IDs"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "solidity",
+        "extensions": [
+          ".sol"
+        ],
+        "aliases": [
+          "Solidity",
+          "solidity"
+        ]
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "when": "resourceLangId == solidity",
+          "command": "hivemind.auditContract",
+          "group": "hivemind"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "hivemind.generateTests",
+          "group": "hivemind"
+        },
+        {
+          "when": "resourceLangId == solidity",
+          "command": "hivemind.deployContract",
+          "group": "hivemind"
+        }
+      ]
+    },
+    "statusBarItems": [
+      {
+        "id": "hivemind.networkStatus",
+        "alignment": "right",
+        "priority": 100
+      },
+      {
+        "id": "hivemind.agentStatus",
+        "alignment": "right",
+        "priority": 99
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "test-chat": "node ./out/test/runTests.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "16.x",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@types/vscode": "^1.60.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "@vscode/codicons": "^0.0.38",
+    "@vscode/test-electron": "^2.1.5",
+    "axios": "^1.10.0",
+    "css-loader": "^6.7.1",
+    "dotenv": "^17.2.0",
+    "eslint": "^8.18.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.19.2",
+    "d3": "^7.6.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
